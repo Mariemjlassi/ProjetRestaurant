@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 import com.projet.app.model.Menu;
 
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long>{
-	 Menu findByDate(Timestamp timestamp);
+    Menu findByDate(LocalDate date);
 }

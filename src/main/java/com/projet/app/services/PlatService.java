@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.projet.app.model.Menu;
 import com.projet.app.model.Plat;
+import com.projet.app.repository.MenuRepository;
 import com.projet.app.repository.PlatRepository;
 
 @Service
@@ -15,12 +16,20 @@ public class PlatService {
 
 	@Autowired
 	private PlatRepository pr;
+	@Autowired
+	private MenuRepository mr;
 	
-	public Plat addPlat(Plat plat) {
-		return pr.save(plat);
+	public Plat createPlat(Long menuId,Plat plat) {
+		Optional<Menu> menu= mr.findById(menuId);
+		if(menu.isPresent()) {
+			Menu menu1=menu.get();
+			plat.setMenu(menu1);
+			return pr.save(plat);
+		}
+		return null;
 	}
 	
-	public List<Plat> getAll(){
+	public List<Plat> getAllPlats(){
 		return pr.findAll();
 	}
 	

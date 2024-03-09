@@ -1,6 +1,8 @@
 package com.projet.app.services;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,29 +57,21 @@ public class MenuService {
     }
 	
 	public Menu getMenuDuJourActuel() {
-        
-		LocalDate localDate = LocalDate.now();
-		Timestamp timestamp = Timestamp.valueOf(localDate.atStartOfDay());
-		Menu menu = mr.findByDate(timestamp);
-		if (menu != null) {
-			logger.info("Le menu du jour actuel a été récupéré avec succès : {}", menu);
-	    } else {
-	    	logger.warn("Aucun menu n'a été trouvé pour la date actuelle : {}", localDate);
-	    }
-	    
-	    return menu;
+        LocalDate currentDate = LocalDate.now();
+        Menu menu = mr.findByDate(currentDate);
+        if (menu != null) {
+            logger.info("Le menu du jour actuel a été récupéré avec succès : {}", menu);
+        } else {
+            logger.warn("Aucun menu n'a été trouvé pour la date actuelle : {}", currentDate);
+        }
+        return menu;
     }
 	
 	public Plat getPlatFromMenu(Menu menu) {
 	    
 	    if (menu != null && !menu.getPlats().isEmpty()) {
 	        
-	        for (Plat plat : menu.getPlats()) {
-	           
-	            if (plat.getQteDisponible() > 0) {
-	                return plat; 
-	            }
-	        }
+	        return menu.getPlats().get(0);
 	        
 	    }
 	    return null;

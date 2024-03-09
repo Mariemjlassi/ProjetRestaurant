@@ -36,7 +36,7 @@ public class PaiementService {
         	Menu menu = ms.getMenuDuJourActuel(); 
 	        Plat plat = ms.getPlatFromMenu(menu);
 	        
-        	if(plat.getQteDisponible()>0) {
+        	if(plat!=null &&plat.getQteDisponible()>0) {
         		if(etudiant.getSoldeCarte()>= montant) {
         			double nouveauSolde = etudiant.getSoldeCarte() - montant;
         			

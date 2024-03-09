@@ -26,24 +26,17 @@ public class PlatController {
 	
 	@Autowired
 	private PlatService ps;
-	@Autowired
-	private MenuService ms;
 	
-	@PostMapping
-	public Plat addPlat(@RequestBody Plat plat,@RequestParam Long menuId) {
-		Menu menu = ms.getMenuById(menuId);
-		if (menu != null) {
-			plat.setMenu(menu);
-			return ps.addPlat(plat);
-		}else {
-			return null;
-		}
+	
+	@PostMapping("/{menuId}")
+	public Plat createPlat(@PathVariable("menuId") Long mId,@RequestBody Plat plat) {
+		return ps.createPlat(mId, plat);
 				
 	}
 	
 	@GetMapping
 	public List<Plat> getPlats(){
-		return ps.getAll();
+		return ps.getAllPlats();
 	}
 	
 	@GetMapping("/{id}")
