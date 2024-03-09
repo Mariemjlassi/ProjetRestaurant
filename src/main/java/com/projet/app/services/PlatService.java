@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.projet.app.model.Menu;
 import com.projet.app.model.Plat;
 import com.projet.app.repository.PlatRepository;
 
@@ -45,6 +46,10 @@ public class PlatService {
         Plat plat=getPlatById(id);
         pr.delete(plat);
     }
+
+	public List<Plat> getAllPlatsByMenu(Menu menu) {
+		return pr.findByMenu(menu);
+	}
 	
 	
 }

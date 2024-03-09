@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.projet.app.model.Menu;
 import com.projet.app.model.Plat;
+import com.projet.app.services.MenuService;
 import com.projet.app.services.PlatService;
 
 @RestController
@@ -24,12 +26,19 @@ public class PlatController {
 	
 	@Autowired
 	private PlatService ps;
-	
+	@Autowired
+	private MenuService ms;
 	
 	@PostMapping
-	public Plat addmenu(@RequestBody Plat plat) {
-		return ps.addPlat(plat);
-			
+	public Plat addPlat(@RequestBody Plat plat,@RequestParam Long menuId) {
+		Menu menu = ms.getMenuById(menuId);
+		if (menu != null) {
+			plat.setMenu(menu);
+			return ps.addPlat(plat);
+		}else {
+			return null;
+		}
+				
 	}
 	
 	@GetMapping

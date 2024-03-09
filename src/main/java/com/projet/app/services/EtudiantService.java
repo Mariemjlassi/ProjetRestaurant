@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projet.app.model.Etudiant;
-import com.projet.app.model.Menu;
-import com.projet.app.model.Paiement;
-import com.projet.app.model.Plat;
+
 import com.projet.app.repository.EtudiantRepository;
 
 @Service
@@ -18,8 +16,6 @@ public class EtudiantService {
 	
 	@Autowired
 	private EtudiantRepository etudiantRepository;
-	@Autowired
-	private MenuService ms;
 	
 	
 	public Etudiant addEtudiant(Etudiant etudiant) {
@@ -67,30 +63,5 @@ public class EtudiantService {
 		}
 	}
 	
-	public void payerPlat(long id, double prixPlat) {
-		Optional<Etudiant> etud = etudiantRepository.findById(id);
-		if(etud.isPresent()) {
-			Etudiant etudiant=etud.get();
-			
-			Menu menu = ms.getMenuDuJourActuel(); 
-	        Plat plat = ms.getPlatFromMenu(menu);
-	        
-	        if(plat.getQteDisponible()>0) {
-	        	if(etudiant.getSoldeCarte()>= prixPlat) {
-	        		double nouveauSolde = etudiant.getSoldeCarte() - prixPlat;
-	                etudiant.setSoldeCarte(nouveauSolde);
-	                Paiement paiement = new Paiement();
-	                paiement.setMontant(prixPlat);
-	                
-	                etudiant.getPaiements().add(paiement);
-	                
-	                plat.setQteDisponible(plat.getQteDisponible()-1);
-	                etudiantRepository.save(etudiant);
-	        	}
-	        }
-		}
-		
-		
-		
-	}
+	
 }

@@ -1,19 +1,24 @@
 package com.projet.app.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.projet.app.repository.RestaurantRepository;
 
 @Service
 public class RestaurantService {
 	
-	@Autowired
-	private RestaurantRepository restaurantRepository;
 	
 	public int getNombrePlacesDisponibles() {
 		int nbpDisponible= 100;
 		return nbpDisponible;
+	}
+	
+	public void mettreAjourPlacesDisponibles(int nombrePlacesReduites) {
+		
+		int nouveauNombrePlaces=getNombrePlacesDisponibles()-nombrePlacesReduites;
+		if(nouveauNombrePlaces<0) {
+			nouveauNombrePlaces=0;
+		}
+		System.out.println("Nouveau nombre de places disponibles : " + nouveauNombrePlaces);
 	}
 
 }

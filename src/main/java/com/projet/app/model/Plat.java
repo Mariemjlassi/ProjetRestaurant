@@ -1,5 +1,7 @@
 package com.projet.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class Plat {
 	
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
+	@JsonIgnore
 	private Menu menu;
 	
 	
