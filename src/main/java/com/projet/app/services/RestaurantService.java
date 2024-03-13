@@ -28,6 +28,7 @@ public class RestaurantService {
 	
 	
 	
+	
 	public void mettreAjourPlacesDisponibles(int nombrePlacesReduites) {
 		
 		Optional<Restaurant> restaurantOptional = restaurantRepository.findById(1L);

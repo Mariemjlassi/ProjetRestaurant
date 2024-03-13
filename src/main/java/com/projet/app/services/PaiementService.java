@@ -1,6 +1,7 @@
 package com.projet.app.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.projet.app.model.Etudiant;
 import com.projet.app.model.Menu;
 import com.projet.app.model.Paiement;
-import com.projet.app.model.Plat;
+
 import com.projet.app.repository.EtudiantRepository;
 import com.projet.app.repository.PaiementRepository;
 
@@ -34,9 +35,8 @@ public class PaiementService {
         	Etudiant etudiant=etud.get();
         	
         	Menu menu = ms.getMenuDuJourActuel(); 
-	        Plat plat = ms.getPlatFromMenu(menu);
 	        
-        	if(plat!=null &&plat.getQteDisponible()>0) {
+        	if(menu!=null &&menu.getQteDisponible()>0) {
         		if(etudiant.getSoldeCarte()>= montant) {
         			double nouveauSolde = etudiant.getSoldeCarte() - montant;
         			
@@ -51,13 +51,16 @@ public class PaiementService {
 	                rs.mettreAjourPlacesDisponibles(1);
 	                
 	                
-	                plat.setQteDisponible(plat.getQteDisponible()-1);
+	                menu.setQteDisponible(menu.getQteDisponible()-1);
 	                paiementRepository.save(paiement);
 	                etudiantRepository.save(etudiant);
         		}
         	}
         }
     
+    }
+    public List<Paiement> getAllPaiements(){
+    	return paiementRepository.findAll();
     }
 
 }

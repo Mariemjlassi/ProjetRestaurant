@@ -1,8 +1,7 @@
 package com.projet.app.services;
-import java.sql.Timestamp;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projet.app.model.Menu;
-import com.projet.app.model.Plat;
 import com.projet.app.repository.MenuRepository;
 
 
@@ -22,8 +20,7 @@ public class MenuService {
 	private static final Logger logger = LoggerFactory.getLogger(MenuService.class);
 	@Autowired
 	private MenuRepository mr;
-	@Autowired
-	private PlatService platService;
+	
 	
 	public Menu addMenu(Menu menu) {
 		return mr.save(menu);
@@ -37,7 +34,6 @@ public class MenuService {
 		Optional<Menu> menu= mr.findById(id);
 		if(menu.isPresent()) {
 			Menu foundMenu = menu.get();
-			foundMenu.setPlats(platService.getAllPlatsByMenu(foundMenu));
 			return foundMenu;
 		}
 		return null;
@@ -47,7 +43,10 @@ public class MenuService {
 		
         Menu existingMenu = getMenuById(id);
         existingMenu.setDate(menu.getDate());
-        existingMenu.setPlats(menu.getPlats());
+        existingMenu.setDescriptionPlat(menu.getDescriptionPlat());
+        existingMenu.setDessert(menu.getDessert());
+        existingMenu.setSupplement(menu.getSupplement());
+        existingMenu.setQteDisponible(menu.getQteDisponible());
         return mr.save(existingMenu);
     }
 	
@@ -67,14 +66,6 @@ public class MenuService {
         return menu;
     }
 	
-	public Plat getPlatFromMenu(Menu menu) {
-	    
-	    if (menu != null && !menu.getPlats().isEmpty()) {
-	        
-	        return menu.getPlats().get(0);
-	        
-	    }
-	    return null;
-	}
+	
 	
 }
